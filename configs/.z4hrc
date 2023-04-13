@@ -1,0 +1,325 @@
+# Personal Zsh configuration file. It is strongly recommended to keep all
+# shell customization and configuration (including exported environment
+# variables such as PATH) in this file or in files sourced from it.
+#
+# Documentation: https://github.com/romkatv/zsh4humans/blob/v5/README.md.
+
+# Periodic auto-update on Zsh startup: 'ask' or 'no'.
+# You can manually run `z4h update` to update everything.
+zstyle ':z4h:' auto-update      'no'
+# Ask whether to auto-update this often; has no effect if auto-update is 'no'.
+zstyle ':z4h:' auto-update-days '28'
+
+# Keyboard type: 'mac' or 'pc'.
+zstyle ':z4h:bindkey' keyboard  'pc'
+
+# Don't start tmux.
+zstyle ':z4h:' start-tmux       no
+
+# Mark up shell's output with semantic information.
+zstyle ':z4h:' term-shell-integration 'yes'
+
+# Right-arrow key accepts one character ('partial-accept') from
+# command autosuggestions or the whole thing ('accept')?
+zstyle ':z4h:autosuggestions' forward-char 'accept'
+
+# Recursively traverse directories when TAB-completing files.
+zstyle ':z4h:fzf-complete' recurse-dirs 'no'
+
+# Enable direnv to automatically source .envrc files.
+zstyle ':z4h:direnv'         enable 'no'
+# Show "loading" and "unloading" notifications from direnv.
+zstyle ':z4h:direnv:success' notify 'yes'
+
+# Enable ('yes') or disable ('no') automatic teleportation of z4h over
+# SSH when connecting to these hosts.
+zstyle ':z4h:ssh:example-hostname1'   enable 'yes'
+zstyle ':z4h:ssh:*.example-hostname2' enable 'no'
+# The default value if none of the overrides above match the hostname.
+zstyle ':z4h:ssh:*'                   enable 'no'
+
+# Send these files over to the remote host when connecting over SSH to the
+# enabled hosts.
+zstyle ':z4h:ssh:*' send-extra-files '~/.nanorc' '~/.env.zsh'
+
+# Clone additional Git repositories from GitHub.
+#
+# This doesn't do anything apart from cloning the repository and keeping it
+# up-to-date. Cloned files can be used after `z4h init`. This is just an
+# example. If you don't plan to use Oh My Zsh, delete this line.
+z4h install ohmyzsh/ohmyzsh || return
+
+# Install or update core components (fzf, zsh-autosuggestions, etc.) and
+# initialize Zsh. After this point console I/O is unavailable until Zsh
+# is fully initialized. Everything that requires user interaction or can
+# perform network I/O must be done above. Everything else is best done below.
+z4h init || return
+
+# Extend PATH.
+path=(~/bin $path)
+
+# Export environment variables.
+export GPG_TTY=$TTY
+
+# Source additional local files if they exist.
+z4h source ~/.env.zsh
+
+# Use additional Git repositories pulled in with `z4h install`.
+#
+# This is just an example that you should delete. It does nothing useful.
+z4h source ohmyzsh/ohmyzsh/lib/diagnostics.zsh  # source an individual file
+z4h source ohmyzsh/ohmyzsh/lib/git.zsh
+z4h load   ohmyzsh/ohmyzsh/plugins/emoji-clock  # load a plugin
+z4h load   ohmyzsh/ohmyzsh/custom/plugins/zsh-proxy
+z4h load   ohmyzsh/ohmyzsh/plugins/extract
+# z4h load   ohmyzsh/ohmyzsh/plugins/z
+z4h load   ohmyzsh/ohmyzsh/plugins/wd
+z4h load   ohmyzsh/ohmyzsh/plugins/git
+# z4h load   ohmyzsh/ohmyzsh/plugins/shell-proxy
+z4h load   ohmyzsh/ohmyzsh/custom/plugins/git-open
+
+
+z4h load   zsh-autosuggestions
+z4h load   zsh-completions
+z4h load   zsh-syntax-highlighting
+z4h load   zsh-history-substring-search
+
+# Define key bindings.
+z4h bindkey z4h-backward-word Ctrl+Left
+z4h bindkey z4h-forward-word Ctrl+Right
+
+z4h bindkey z4h-backward-kill-word  Ctrl+Backspace     Ctrl+H
+z4h bindkey z4h-backward-kill-zword Ctrl+Alt+Backspace
+
+z4h bindkey undo Ctrl+/ Shift+Tab  # undo the last command line change
+z4h bindkey redo Alt+/             # redo the last undone command line change
+
+# z4h bindkey z4h-cd-back    Alt+Left   # cd into the previous directory
+# z4h bindkey z4h-cd-forward Alt+Right  # cd into the next directory
+# z4h bindkey z4h-cd-up      Alt+Up     # cd into the parent directory
+# z4h bindkey z4h-cd-down    Alt+Down   # cd into a child directory
+
+# Autoload functions.
+autoload -Uz zmv
+
+# Define functions and completions.
+function md() { [[ $# == 1 ]] && mkdir -p -- "$1" && cd -- "$1" }
+function cdl() { 
+  if [[ $# == 0 ]]; then
+    cd $HOME && lsd -- "$HOME"
+  else
+    z "$1" && lsd -- "$PWD" 
+  fi
+}
+compdef _directories md
+
+# Define named directories: ~w <=> Windows home directory on WSL.
+[[ -z $z4h_win_home ]] || hash -d w=$z4h_win_home
+
+# Define aliases.
+alias l='exa -lah'
+alias ll='exa -lah'
+alias c=clear
+alias cd=cdl
+alias tree='tree -a -I .git'
+alias dr='docker run --rm -it -v share_data:/root/data/'
+alias db='docker build'
+alias lls='logo-ls'
+alias ls="lsd"
+alias vi="nvim"
+alias grep="rg"
+alias cat="bat --style=plain"
+alias du="dust"
+alias grep="rg"
+alias find="fd"
+alias ra="ranger"
+alias rv="EDITOR=nvim ranger"
+alias clion='f(){ clion $1  1>>/dev/null 2>>/dev/null & }; f'
+alias goland='f() { goland $@ 1>>/dev/null 2>>/dev/null & }; f'
+alias pycharm='f() { pycharm $1 1>>/dev/null 2>>/dev/null & }; f'
+alias webstorm='f() { webstorm $@ 1>>/dev/null 2>>/dev/null & }; f'
+alias kate='f() { kate $@ 1>>/dev/null 2>>/dev/null }; f'
+alias ze='f() { zellij -l compact $@ }; f'
+alias za='f() { zellij -l compact attach -c --index 0 }; f'
+alias dolphin='f() { dolphin $@ 1>>/dev/null 2>>/dev/null }; f'
+alias fzf-open-alias='f() {eval "$(fzf-open $@)"}; f'
+alias fcc='f() {eval "$(fzf-open -c $@)"}; f'
+alias fcf='fzf-open-alias'
+alias fcd='fzf-open-alias -t d'
+alias d=dolphin
+alias g=gitui
+alias ht="http"
+alias jj="just -f $HOME/.recipes/Justfile"
+
+function fz() {
+    local dirnamev="$(zoxide query -l | awk '{print $1}' | tr '\n' ' ')"
+    if [[ -z "${dirnamev}" ]]; then
+        return 0
+    fi
+    eval 'fzf-open-alias ${dirnamev} $@ -t d'
+}
+
+function de() {
+    # docker exec
+    # fzf select live container and open shell in it
+    local container_desc="$(docker ps | awk '{print $1" "$2" "$4" "$5" "$6" "$10}' | sed '1d' | fzf)"
+    if [[ -z "${container_desc}" ]]; then
+        return 0
+    fi
+
+    local container_id="$(echo ${container_desc} | awk '{print $1}')"
+    # test if container has bash
+    if [[ -z "$(docker exec ${container_id} which bash)" ]]; then
+        docker exec -it ${container_id} sh
+    else
+        docker exec -it ${container_id} bash
+    fi
+}
+
+function gw() {
+    local dirnamev="$(git worktree list | awk '{print $1}' | fzf)"
+    if [[ -z "${dirnamev}" ]]; then
+        return 0
+    fi
+    cd ${dirnamev}
+}
+
+function cgw() {
+    # create git worktree
+    if [[ -z "$1" ]]; then
+        echo "Usage: cgw <branch> [<dir>]"
+        return 0
+    fi
+    if [[ -z "$GIT_WORKTREE_DIR" ]]; then
+        echo "GIT_WORKTREE_DIR is not set"
+        return 0
+    fi
+    local branch_name="$1"
+    
+
+    if [[ -z "$2" ]]
+    then
+        # get current repo name
+        local repo_name="$(basename $(git rev-parse --show-toplevel))"
+
+        local dirname="${GIT_WORKTREE_DIR}/${repo_name}/${branch_name}"
+        if [[ -d "${dirname}" ]]; then
+            echo "Directory ${dirname} already exists"
+            return 0
+        fi
+    else
+        local dirname="$2"
+    fi
+    git worktree add "${dirname}" "${branch_name}"
+}
+
+# complete all branches for cgw
+_cgw() {
+    local cur="${COMP_WORDS[COMP_CWORD]}"
+    local branches="$(git branch | sed 's/ //g' | sed 's/*//g')"
+    COMPREPLY=( $(compgen -W "${branches}" -- ${cur}) )
+}
+complete -F _cgw cgw
+
+# complete all docker images for dr
+_dr_comp() {
+    local cur="${COMP_WORDS[COMP_CWORD]}"
+    local images="$(docker images | awk '{print $1":"$2}' | sed '1d')"
+    COMPREPLY=( $(compgen -W "${images}" -- ${cur}) )
+}
+
+complete -F  _dr_comp dr
+# compdef dr="docker"
+
+setopt complete_aliases
+
+function copy() {
+    local dirn
+    if [[ -z "$@" ]]; then
+        dirn="$(pwd)"
+    else
+        dirn="$(readlink -f $1)"
+    fi
+    copyq add ${dirn}
+    echo ${dirn}
+}
+
+
+function rga-fzf() {
+	RG_PREFIX="rga --files-with-matches"
+	local file
+	file="$(
+		FZF_DEFAULT_COMMAND="$RG_PREFIX '$1'" \
+			fzf --sort --preview="[[ ! -z {} ]] && rga --pretty --context 5 {q} {}" \
+				--phony -q "$1" \
+				--bind "change:reload:$RG_PREFIX {q}" \
+				--preview-window="70%:wrap"
+	)" &&
+	echo "opening $file" &&
+	xdg-open "$file"
+}
+
+
+function no_proxy() {
+    unset http_proxy
+    unset ftp_proxy
+    unset rsync_proxy
+    unset no_proxy
+    unset HTTP_PROXY
+    unset FTP_PROXY
+    unset RSYNC_PROXY
+    unset NO_PROXY
+    unset https_proxy
+    unset HTTPS_PROXY
+}
+
+function set_proxy() {
+export http_proxy="http://127.0.0.1:7890/"
+export ftp_proxy="ftp://127.0.0.1:7890/"
+export rsync_proxy="rsync://127.0.0.1:7890/"
+export no_proxy="localhost,127.0.0.1,192.168.1.1,::1,*.local"
+export HTTP_PROXY="http://127.0.0.1:7890/"
+export FTP_PROXY="ftp://127.0.0.1:7890/"
+export RSYNC_PROXY="rsync://127.0.0.1:7890/"
+export NO_PROXY="localhost,127.0.0.1,192.168.1.1,::1,*.local"
+export https_proxy="http://127.0.0.1:7890/"
+export HTTPS_PROXY="http://127.0.0.1:7890/"
+}
+
+function help() {
+    echo "fzf-open-alias: open file or directory with fzf"
+    echo "fhd: open directory with fzf in home directory by its name"
+    echo "fhf: open file with fzf in home directory by its name"
+    echo "fhc: open file with fzf in home directory by its content"
+    echo "fcc: open file with fzf in current directory by its content"
+
+    echo "fwd: open directory with fzf in wd records by its name"
+    echo "gw: goto git worktree"
+    echo "cgw: create git worktree"
+}
+
+
+
+alias p='set_proxy'
+alias np='no_proxy'
+
+export EDITOR="nvim"
+alias e=$EDITOR
+
+# Set shell options: http://zsh.sourceforge.net/Doc/Release/Options.html.
+setopt glob_dots     # no special treatment for file names with a leading dot
+setopt no_auto_menu  # require an extra TAB press to open the completion menu
+export QT_AUTO_SCREEN_SCALE_FACTOR=1
+export QT_SCREEN_SCALE_FACTORS="1"
+
+
+eval "$(zoxide init zsh)"
+
+
+source /usr/share/nvm/init-nvm.sh
+source /home/lon/.config/broot/launcher/bash/br
+
+# pnpm
+export PNPM_HOME="/home/lon/.local/share/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end

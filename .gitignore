@@ -1,0 +1,4 @@
+configs/dot-config/chadwm
+configs/dot-config/nvim
+*.pyc
+**pycache**

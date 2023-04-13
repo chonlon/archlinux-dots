@@ -1,0 +1,11 @@
+alist *args:
+    just -f alist.just {{args}}
+
+bspwm *args:
+    just -f bspwm.just {{args}}
+
+just *args:
+    just -f just.just {{args}}
+
+get-help:
+    just -f just.just open-help

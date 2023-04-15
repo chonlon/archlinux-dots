@@ -314,6 +314,14 @@ label:focus {
   color: #abb2bf;
 }
 
+#custom-notification {
+  padding: 0 10px;
+  font-family: "NotoSansMono Nerd Font";
+  color: #abb2bf;
+  background-color: rgba(132, 93, 156, 0.179);
+  border-radius: 5px;
+}
+
 #keyboard-state > label.locked {
   background: rgba(0, 0, 0, 0.2);
 }

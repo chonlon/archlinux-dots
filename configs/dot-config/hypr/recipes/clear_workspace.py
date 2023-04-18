@@ -14,5 +14,6 @@ for win in windows:
         
         print("closing: {}-{}".format(win["address"], win["title"]))
         hyprlibs.exec_or_remind("hyprctl dispatch movetoworkspacesilent {},address:{}".format(9 , win["address"]))
+        hyprlibs.exec_or_remind("hyprctl dispatch cyclenext")
 
 

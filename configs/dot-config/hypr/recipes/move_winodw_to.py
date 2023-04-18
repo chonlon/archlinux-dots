@@ -10,9 +10,10 @@ def main(
   cur_win = hyprlibs.get_current_window()["address"]
   hyprlibs.exec_or_remind("hyprctl dispatch movetoworkspacesilent {},address:{}".format(dest_workspace, cur_win))
   # refocus to biggest window in current workspace  
-  cur_workspace = hyprlibs.get_current_workspace(0)["id"]
-  biggest_win = hyprlibs.biggest_window_in_workspace(cur_workspace["id"])
-  hyprlibs.exec_or_remind("hyprctl dispatch focuswindow address:{}".format(biggest_win["address"]))
+  # cur_workspace = hyprlibs.get_current_workspace(0)["id"]
+  # biggest_win = hyprlibs.biggest_window_in_workspace(cur_workspace["id"])
+  # hyprlibs.exec_or_remind("hyprctl dispatch focuswindow address:{}".format(biggest_win["address"]))
+  hyprlibs.exec_or_remind("hyprctl dispatch cyclenext")
 
 
 if __name__ == "__main__":

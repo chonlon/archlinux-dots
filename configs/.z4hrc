@@ -108,7 +108,7 @@ function cdl() {
   if [[ $# == 0 ]]; then
     cd $HOME && lsd -- "$HOME"
   else
-    z "$1" && lsd -- "$PWD" 
+    cd "$1" && lsd -- "$PWD" 
   fi
 }
 compdef _directories md

@@ -73,7 +73,7 @@ run_cmd() {
 				i3-msg exit
 			elif [[ "$DESKTOP_SESSION" == 'plasma' ]]; then
 				qdbus org.kde.ksmserver /KSMServer logout 0 0 0
-			elif [[ "$DESKTOP_SESSION" == 'hyprland-wrap' ]]; then
+			elif [[ "$DESKTOP_SESSION" == 'hyprland' ]]; then
 				hyprctl dispatch exit
 			fi
 		fi
@@ -95,7 +95,7 @@ $lock)
 	if [[ -x '/usr/bin/betterlockscreen' ]]; then
 		betterlockscreen -l
 	elif [[ -x '/usr/bin/swaylock' ]]; then
-		swaylock
+		swaylock -i $HOME/.config/hypr/wallpapers/632051.png
 	fi
 	;;
 $suspend)

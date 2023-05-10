@@ -57,8 +57,19 @@ WEATHER_CODES = {
 
 data = {}
 
+http_proxy  = ""
+https_proxy = ""
+ftp_proxy   = ""
 
-weather = requests.get("https://wttr.in/?format=j1").json()
+proxies = { 
+              "http"  : http_proxy, 
+              "https" : https_proxy, 
+              "ftp"   : ftp_proxy
+            }
+
+
+
+weather = requests.get("https://wttr.in/?format=j1", proxies=proxies).json()
 
 
 def format_time(time):

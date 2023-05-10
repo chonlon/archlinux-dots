@@ -1,0 +1,151 @@
+{
+    "height": 40, // Waybar height (to be removed for auto height)
+    "layer": "top",
+    "position": "top",
+    "mod": "dock",
+    "margin-top": 3,
+    "margin-left": 10,
+    "margin-bottom": 5,
+    "margin-right": 10,
+    "spacing": 5, // Gaps between modules (4px)
+    "modules-left": ["custom/launcher", "cpu", "memory", "wlr/workspaces"],
+    "modules-center": ["custom/weather", "clock"],
+    "modules-right": ["network#speed","tray","backlight", "pulseaudio", "network", "custom/notification","custom/power-menu"],
+    "hyprland/window": {
+        "format": "{}"
+    },
+    "wlr/workspaces": {
+        "on-scroll-up": "hyprctl dispatch workspace e+1",
+        "on-scroll-down": "hyprctl dispatch workspace e-1",
+        "all-outputs": true,
+        "on-click": "activate",
+        "format": "{icon}",
+        "format-active": "{icon}"
+    },
+    "tray": {
+        "spacing": 10
+    },
+
+    "clock": {
+        "tooltip": false,
+        "interval": 60,
+        "format": "{:%m-%d  %H:%M}",
+        "max-length": 25,
+        "on-click": "alacritty  --class calendar -e calcure",
+        "tooltip-format": "<big>{:%B %Y}</big>\n<tt><small>{calendar}</small></tt>"
+    },
+
+    "cpu": {
+      "interval": 10,
+      "format": " {}%",
+      "max-length": 10,
+      "on-click": "alacritty -e btop"
+    },
+    "memory": {
+        "interval": 30,
+        "format": " {}%",
+        "format-alt":" {used:0.1f}G",
+        "max-length": 10
+    },
+    "backlight": {
+        "device": "DP-1",
+        "format": "{icon} {percent}%",
+        "format-icons": ["", "", "", "", "", "", "", "", ""],
+        "on-click": ""
+    },
+    "network": {
+        "format-wifi": "直 {signalStrength}%",
+        "format-ethernet": " wired",
+        "format-disconnected": "睊",
+        "on-click": "bash ~/.config/waybar/scripts/rofi-wifi-menu.sh"
+    },
+    "network#speed": {
+        "format-wifi": " {bandwidthDownBytes:3}",
+        "interval": 2,
+        "tooltip-format": "{ifname}: {ipaddr}"
+    },
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-bluetooth": "  {volume}%",
+        "format-bluetooth-muted": " ",
+        "format-muted": "婢",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol"
+    },
+
+    "bluetooth": {
+        "on-click": "~/.config/waybar/scripts/rofi-bluetooth &",
+        "format": " {status}"
+    },
+
+    "battery": {
+      "bat": "BAT0",
+      "adapter": "ADP0",
+      "interval": 60,
+      "states": {
+          "warning": 30,
+          "critical": 15
+      },
+      "max-length": 20,
+      "format": "{icon} {capacity}%",
+      "format-warning": "{icon} {capacity}%",
+      "format-critical": "{icon} {capacity}%",
+      "format-charging": "<span font-family='Font Awesome 6 Free'></span> {capacity}%",
+      "format-plugged": "  {capacity}%",
+      "format-alt": "{icon} {time}",
+      "format-full": "  {capacity}%",
+      "format-icons": [" ", " ", " ", " ", " "]
+    },
+    "custom/weather": {
+      "exec": "python3 ~/.config/waybar/scripts/weather.py",
+      "restart-interval": 300,
+      "return-type": "json",
+      "on-click": "xdg-open https://weather.com/en-IN/weather/today/l/a319796a4173829988d68c4e3a5f90c1b6832667ea7aaa201757a1c887ec667a"
+    },   
+
+   "custom/spotify": {
+    "exec": "python3 ~/.config/waybar/scripts/mediaplayer.py --player spotify",
+    "format": "{}  ",
+    "return-type": "json",
+    "on-click": "playerctl play-pause",
+    "on-double-click-right": "playerctl next",
+    "on-scroll-down": "playerctl previous"
+    },
+    "custom/power-menu": {
+        "format": " <span color='#6a92d7'>⏻ </span>",
+        "on-click": "bash ~/.config/rofi/powermenu/powermenu.sh"
+    }, 
+    "custom/launcher": {
+        "format": " <span color='#6a92d7'> </span>",
+        "on-click": "rofi -show drun"
+    },
+    "custom/notification": {
+        "tooltip": false,
+        "format": "{icon}",
+        "format-icons": {
+          "notification": "<span foreground='red'><sup></sup></span>",
+          "none": "",
+          "dnd-notification": "<span foreground='red'><sup></sup></span>",
+          "dnd-none": "",
+          "inhibited-notification": "<span foreground='red'><sup></sup></span>",
+          "inhibited-none": "",
+          "dnd-inhibited-notification": "<span foreground='red'><sup></sup></span>",
+          "dnd-inhibited-none": ""
+        },
+        "return-type": "json",
+        "exec-if": "which swaync-client",
+        "exec": "swaync-client -swb",
+        // "on-click": "bash -c 'swaync-client -t -sw'",  // bug in waybar and swaync
+        "on-click-right": "swaync-client -d -sw",
+        "escape": true
+    }
+}
+

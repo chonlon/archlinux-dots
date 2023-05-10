@@ -1,0 +1,278 @@
+
+
+#
+# wm independent hotkeys
+#
+
+alt + Escape
+    betterlockscreen -l
+
+ctrl + {shfit+} q
+    copyq
+
+# terminal emulator
+super + Return
+    python ~/.recipes/master-swap.py
+
+super + { shift + }{ Return }
+    alacritty -e zsh -c 'sleep 0.1 && zellij -l compact options --on-force-close quit'
+
+# program launcher
+alt + space
+	rofi -show drun
+
+# window swither
+super + space
+    rofi -show window
+
+# make sxhkd reload its configuration files:
+super + {shift+} Escape
+	pkill -USR1 -x sxhkd && \
+    pkill -USR1 -x polybar && \
+    pkill -USR1 -x eww && \
+    eww daemon &
+
+#
+# bspwm hotkeys
+#
+
+# quit/restart bspwm
+super + alt + {q,r}
+	bspc {quit,wm -r}
+
+# close and kill
+alt + {F4, Shift + F4}
+	bspc node -{c,k}
+
+super + {BackSpace, q}
+    bspc node -{c,k}
+
+# # alternate between the tiled and monocle layout
+# super + m
+# 	bspc desktop -l next
+
+
+# send the newest marked node to the newest preselected node
+super + y
+    bspc node -g marked && \
+	bspc node newest.marked.local -n newest.!automatic.local
+
+super + r
+	bspc node @/ -R 90
+
+#
+# state/flags
+#
+
+# set window tiled state
+# if it is floating, it will be tiled
+# if it is tiled, it will be floating
+super {+ semicolon}
+	cur_state=$(bspc query -T -n focused | jq -r '.client.state'); \
+	if [ "$cur_state" = "tiled" ]; then \
+		bspc node -t floating; \
+	else \
+		bspc node -t tiled; \
+	fi
+
+# set/unset the window fullscreen state
+super + u
+	cur_state=$(bspc query -T -n focused | jq -r '.client.state'); \
+	if [ "$cur_state" = "fullscreen" ]; then \
+		bspc node -t tiled; \
+	else \
+		bspc node -t fullscreen; \
+	fi
+
+# set the node flags
+super + ctrl + {m,x,y,z}
+	bspc node -g {marked,locked,sticky,private}
+
+#
+# focus/swap
+#
+
+# focus the node in the given direction
+super + {_,shift + }{j,k,i,l}
+	bspc node -{f,s} {west,south,north,east}
+
+# focus the node for the given path jump
+super + {p,b,comma,period}
+	bspc node -f @{parent,brother,first,second}
+
+# focus the next/previous window in the current desktop
+super + {_,shift + }o
+	bspc node -f {next,prev}.local.!hidden.window
+
+# swap current node with biggest node in current desktop
+# if current node is biggest node, swap with prev focused node
+super + h
+	python ~/.recipes/dropterm.py
+
+# focus the next/previous desktop in the current monitor
+super + bracket{left,right}
+	bspc desktop -f {prev,next}.local
+
+# focus the last node/desktop
+super + {grave,Tab}
+	bspc {node,desktop} -f last
+
+# focus the older or newer node in the focus history
+alt + {u,o}
+	bspc wm -h off; \
+	bspc node {older,newer} -f; \
+	bspc wm -h on
+
+# focus or send to the given desktop
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+
+alt + {_,shift + }{a,s,d,f,g}
+	bspc {desktop -f,node -d} {1,2,3,4,5}
+
+# move the current node to the given desktop and focus it
+alt + {1-9,0}
+	n_pressed='^{1-9,10}'; \
+	curr_node=$(bspc query -N -n focused.local); \
+	bspc node -d $n_pressed && bspc desktop -f $n_pressed && \
+	bspc node $curr_node -f
+
+alt + {a,s,d,f,g}
+	n_pressed='{1,2,3,4,5}'; \
+	curr_node=$(bspc query -N -n focused.local); \
+	bspc node -d $n_pressed && bspc desktop -f $n_pressed && \
+	bspc node $curr_node -f
+
+# move all nodes to the given desktop except the current one
+super + ctrl + { shift +}{1-9,0}
+	cur_node=$(bspc query -N -n focused.local); \
+	cur_desk=$(bspc query -D -d focused --names); \
+	bspc query -N -d $cur_desk -n .window -m focused  \
+		| grep -v $cur_node | xargs -I id -n 1 bspc node id -d '^{1-9,10}'
+
+
+# move all nodes in the current desktop to the given desktop
+super + backslash
+	cur_desk=$(bspc query -D -d focused --names); \
+	bspc query -N -d $cur_desk -n .window -m focused | xargs -I id -n 1 bspc node id -d 5
+
+# move all node in the current desktop to the given desktop except the current one
+alt + { Return }
+	cur_node=$(bspc query -N -n focused.local); \
+	cur_desk=$(bspc query -D -d focused --names); \
+	bspc query -N -d $cur_desk -n .window -m focused  \
+		| grep -v $cur_node | xargs -I id -n 1 bspc node id -d 5
+
+# move current node to the desktop 5
+alt + q
+	bspc node -d 5
+
+super + {n,m,apostrophe}
+	bsp-layout set {tall, tiled, grid}
+
+super + {_,shift +}z
+	{kitty, bspc rule -a \* -o state=floating sticky=on layer=above rectangle=720x360+600+26 && kitty}
+
+#
+# preselect
+#
+
+# preselect the direction
+super + ctrl + {j,k,i,l}
+	bspc node -p {west,south,north,east}
+
+# preselect the ratio
+super + ctrl + {1-9}
+	bspc node -o 0.{1-9}
+
+# cancel the preselection for the focused node
+super + ctrl + space
+	bspc node -p cancel
+
+# cancel the preselection for the focused desktop
+super + ctrl + shift + space
+	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+
+#
+# move/resize
+#
+
+# expand a window by moving one of its side outward
+super + alt + {j,k,i,l}
+	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# contract a window by moving one of its side inward
+super + alt + shift + {h,j,k,l}
+	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+super + minus
+	bspc node -z right -100 0 || \
+	bspc node -z left -100 0
+
+super + equal
+	bspc node -z right 100 0 || \
+	bspc node -z left 100 0
+
+# move a floating window
+super + {Left,Down,Up,Right}
+	bspc node -v {-50 0,0 50,0 -50,50 0}
+
+# Play music
+XF86AudioPlay 
+        playerctl play
+
+# Pause music
+XF86AudioPause
+	playerctl pause
+
+# Music next
+XF86AudioNext
+	playerctl next
+
+# Music previous
+XF86AudioPrev
+	playerctl previous
+
+# Screenshot Area
+Print
+	$HOME/.scripts/screenshot --area-cb
+
+# Screenshot Full
+shift + Print
+	$HOME/.scripts/screenshot --full-cb
+
+# Switch windows
+alt + Tab
+    bash ~/.config/rofi/window-switcher/window-switcher.sh
+
+# Save screenshot to file with clipboard
+ctrl + shift + Print
+	$HOME/.scripts/screenshot --full
+
+# Screenshot Area and save it
+ctrl + Print
+        $HOME/.scripts/screenshot --area
+
+# Volume Up
+XF86AudioRaiseVolume
+  amixer sset Master 5%+ && $HOME/.config/eww/Misc/scripts/volume
+
+# Volume Down
+XF86AudioLowerVolume
+  amixer sset Master 5%- && $HOME/.config/eww/Misc/scripts/volume
+
+# Volume Mute
+XF86AudioMute
+  amixer sset Master toggle && $HOME/.config/eww/Misc/scripts/volume
+
+# Brightness Up
+XF86MonBrightnessUp
+  brightnessctl s 20+ && $HOME/.config/eww/Misc/scripts/brightness
+
+# Brightness Down
+XF86MonBrightnessDown
+  brightnessctl s 20- && $HOME/.config/eww/Misc/scripts/brightness
+
+# Toggle right click context menu.
+~button3
+	  xqp 0 $(xdo id -N Bspwm -n root) && jgmenu_run 

@@ -3,6 +3,7 @@
 import json
 import subprocess
 
+__G_config = None
 
 def exec_or_remind(command):
     try:
@@ -21,7 +22,6 @@ def exec_or_remind(command):
         )
 
         raise e
-
 
 def get_current_window():
     out = exec_or_remind("hyprctl activewindow -j")
@@ -67,3 +67,36 @@ def focused_monitor():
         if mon["focused"]:
             return mon
     return None
+
+def get_config():
+    global __G_config
+    
+    if __G_config:
+        return __G_config
+    else:
+        print("loading config")
+        print(__G_config)
+        def get_config_from():
+            import os
+            home = os.path.expanduser("~")
+            config_path = os.path.join(home, ".config", "hypr", "recipes", "config")
+            with open(config_path) as f:
+                config = json.load(f)
+            return config
+
+        config = get_config_from()
+        __G_config = config
+        return config
+
+
+def is_window_match(win, rule):
+    """
+    rule: {"title": "xxx", "class": "xxx", ...}
+    win: hyprctl clients -j returned or get_windows() returned
+    """
+    import string
+    if "title" in rule and rule["title"] and win["title"].find(rule["title"]) == -1:
+        return False
+    if "class" in rule and rule["class"] and win["class"] != rule["class"]:
+        return False
+    return True

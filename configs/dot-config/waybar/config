@@ -61,6 +61,7 @@
     },
     "network#speed": {
         "format-wifi": " {bandwidthDownBytes:3}",
+        "format-ethernet": " {bandwidthDownBytes:3}",
         "interval": 2,
         "tooltip-format": "{ifname}: {ipaddr}"
     },

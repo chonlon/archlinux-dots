@@ -4,6 +4,7 @@
 
 !alacritty/**
 !btop/**
+!broot/**
 !eww/**
 !polybar/**
 !sxhkd/**

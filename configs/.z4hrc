@@ -122,7 +122,7 @@ alias ll='exa -lah'
 alias c=clear
 alias cd=cdl
 alias tree='tree -a -I .git'
-alias dr='docker run --rm -it -v share_data:/root/data/'
+alias dr='docker run --rm -it -v share_data:/root/data/ -v /mnt:/mnt'
 alias db='docker build'
 alias lls='logo-ls'
 alias ls="lsd"
@@ -150,6 +150,8 @@ alias d=dolphin
 alias g=gitui
 alias ht="http"
 alias jj="just -f $HOME/.recipes/Justfile"
+alias lzd="lazydocker"
+alias cp="xcp"
 
 function fz() {
     local dirnamev="$(zoxide query -l | awk '{print $1}' | tr '\n' ' ')"
@@ -318,8 +320,19 @@ eval "$(zoxide init zsh)"
 
 source /usr/share/nvm/init-nvm.sh
 source /home/lon/.config/broot/launcher/bash/br
+alias br="br --sort-by-date"
 
 # pnpm
 export PNPM_HOME="/home/lon/.local/share/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end
+export http_proxy="http://127.0.0.1:7890/"
+export ftp_proxy="ftp://127.0.0.1:7890/"
+export rsync_proxy="rsync://127.0.0.1:7890/"
+export no_proxy="localhost,127.0.0.1,192.168.1.1,::1,*.local"
+export HTTP_PROXY="http://127.0.0.1:7890/"
+export FTP_PROXY="ftp://127.0.0.1:7890/"
+export RSYNC_PROXY="rsync://127.0.0.1:7890/"
+export NO_PROXY="localhost,127.0.0.1,192.168.1.1,::1,*.local"
+export https_proxy="http://127.0.0.1:7890/"
+export HTTPS_PROXY="http://127.0.0.1:7890/"

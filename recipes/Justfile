@@ -1,11 +1,14 @@
-alist *args:
-    just -f alist.just {{args}}
+dockers *args:
+    just -f dockers.just {{args}}
 
 bspwm *args:
     just -f bspwm.just {{args}}
 
 just *args:
     just -f just.just {{args}}
+
+note *args:
+    just -f note.just {{args}}
 
 get-help:
     just -f just.just open-help

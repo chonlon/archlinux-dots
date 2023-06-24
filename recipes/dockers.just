@@ -18,6 +18,18 @@ frp-start:
         --network host  -itd \
         -v $HOME/5_app/frp/frpc.ini:/etc/frp/frpc.ini \
         --name frpc snowdreamtech/frpc
+frp-restart: frp-stop_inner frp-start
 
-frp-stop:
+frp-stop_inner:
     docker rm frpc -f
+
+syncthing-start:
+  docker run -itd --restart=always \
+    -p 8080:8384 -p 30029:22000 \
+    -v /home/lon/5_app/syncthing/data:/var/syncthing \
+    --hostname=lon-syncthing-home \
+    --name=syncthing \
+    syncthing/syncthing:latest
+
+syncthing-stop:
+  docker rm syncthing -f

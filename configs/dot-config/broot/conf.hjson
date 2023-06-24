@@ -204,16 +204,28 @@ verbs: [
         external: "nvim {file}"
         leave_broot: false
     },
+     {
+        invocation: "subl"
+        shortcut: "s"
+        external: "/usr/bin/subl {file}"
+        leave_broot: false
+    },
     {
         invocation: "code"
-        shortcut: "co"
+        shortcut: "c"
         external: "/usr/bin/code {file}"
         leave_broot: false
-    }
+    },
+    {
+        invocation: "copyq"
+        shortcut: "cq"
+        external: "copyq add {file}"
+        leave_broot: false
+    },
     {
     	invocation: "dir"
-	shortcut: "d"
-	external: "nemo {file}"
-	leave_broot: false
+        shortcut: "d"
+    	external: "nemo {file}"
+    	leave_broot: false
     }
 ]

@@ -2,13 +2,14 @@
   "window": {
     "target_rules": [
       {"class": "kitty", "workspace": 9},
-      {"title": "Visual Studio Code", "workspace": 9},
-      {"title": "firefox", "workspace": 8},
-      {"title": "Google Chrome", "workspace": 8},
-      {"class": "Feishu", "workspace": 8},
       {"title": "滴答清单", "workspace": 7},
       {"class": "dida", "workspace": 7},
-      {"class": "Logseq", "workspace": 7}
+      {"class": "Logseq", "workspace": 7},
+      {"class": "Feishu", "workspace": 8},
+      {"title": "Visual Studio Code", "workspace": 6},
+      {"title": "sublime text", "workspace": 6},
+      {"title": "firefox", "workspace": 5},
+      {"title": "Google Chrome", "workspace": 5}
     ]
   }
 }

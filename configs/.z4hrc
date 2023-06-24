@@ -318,7 +318,7 @@ eval "$(zoxide init zsh)"
 
 source /usr/share/nvm/init-nvm.sh
 source /home/lon/.config/broot/launcher/bash/br
-
+alias br="br --sort-by-date"
 # pnpm
 export PNPM_HOME="/home/lon/.local/share/pnpm"
 export PATH="$PNPM_HOME:$PATH"

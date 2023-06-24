@@ -1,0 +1,8 @@
+// Settings in here override those in "Default/Preferences.sublime-settings",
+// and are overridden in turn by syntax-specific settings.
+{
+	"font_size": 24,
+	"hot_exit": "always",
+	"open_tabs_after_current": false,
+	"hot_exit_projects": false,
+}

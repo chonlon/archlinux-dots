@@ -24,6 +24,7 @@
 !hypr/**
 !waybar/**
 !swaylock/**
+!sublime-text/Packages/User/**
 !gtk*/**
 
 

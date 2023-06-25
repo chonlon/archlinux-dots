@@ -1,11 +1,29 @@
-alist *args:
-    just -f alist.just {{args}}
+dockers *args:
+    just -f dockers.just {{args}}
 
 bspwm *args:
     just -f bspwm.just {{args}}
 
 just *args:
     just -f just.just {{args}}
+
+huawei *args:
+    just -f huawei.just {{args}}
+
+local *args:
+    @ just -f local.just {{args}}
+
+note *args:
+    just -f note.just {{args}}
+
+todo *args:
+    just -f todo.just {{args}}
+
+k8 *args:
+    @ just -f k8s.just {{args}}
+
+ssh *args:
+    @ just -f ssh.just {{args}}
 
 get-help:
     just -f just.just open-help

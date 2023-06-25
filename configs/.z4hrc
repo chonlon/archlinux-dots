@@ -151,7 +151,7 @@ alias g=gitui
 alias ht="http"
 alias jj="just -f $HOME/.recipes/Justfile"
 alias lzd="lazydocker"
-alias cp="xcp"
+alias cp="fcp"
 
 function fz() {
     local dirnamev="$(zoxide query -l | awk '{print $1}' | tr '\n' ' ')"

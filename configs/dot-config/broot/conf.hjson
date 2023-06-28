@@ -23,7 +23,7 @@
 # if you don't want the hidden files you can launch `br -H`)
 # A popular flag is the `g` one which displays git related info.
 #
-default_flags: ih
+default_flags: i
 
 ###############################################################
 # Date/Time format
@@ -205,11 +205,42 @@ verbs: [
         leave_broot: false
     },
     {
+    	invocation: "new {new_file}"
+    	shortcut: n
+    	external: "subl {directory}/{new_file}"
+    	leave_broot: false
+    },
+    {
+        invocation: "zoxide {new_path}"
+        shortcut: z
+        external: "z {new_path} && br"
+        leave_broot: true
+        from_shell: true
+    },
+    {
+        invocation: "cdd"
+        shortcut: "c"
+        external: "alacritty --working-directory={directory}"
+        leave_broot: false
+    }
+    {
+        invocation: "subl"
+        shortcut: "s"
+        external: "/usr/bin/subl {file}"
+        leave_broot: false
+    },
+    {
+        invocation: "copyq"
+        shortcut: "cq"
+        external: "/usr/bin/copyq add {file}"
+        leave_broot: false
+    },
+    {
         invocation: "code"
         shortcut: "co"
         external: "/usr/bin/code {file}"
         leave_broot: false
-    }
+    },
     {
     	invocation: "dir"
 	shortcut: "d"

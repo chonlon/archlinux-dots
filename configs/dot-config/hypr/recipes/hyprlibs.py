@@ -58,7 +58,7 @@ def biggest_window_in_workspace(workspace_id):
             if area > biggest_area:
                 biggest_area = area
                 biggest_win = win
-    return biggest_win | windows[0]
+    return biggest_win or windows[0]
 
 def focused_monitor():
     out = exec_or_remind("hyprctl monitors -j")

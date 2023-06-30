@@ -54,6 +54,9 @@ if win is not None:
         bwin = hyprlibs.biggest_window_in_workspace(win_workspace)
         if win["address"] == bwin["address"]:
             print("already master")
+            if win["workspace"]["id"] == cur_workspace:
+                print("swapping with master")
+                hyprlibs.exec_or_remind("hyprctl dispatch workspace prev")
         else:
             hyprlibs.exec_or_remind("hyprctl dispatch layoutmsg swapwithmaster master")
 else:

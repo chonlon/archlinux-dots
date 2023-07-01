@@ -28,12 +28,16 @@ def get_current_window():
     return json.loads(out)
 
 
-def get_current_workspace(monitor_n: int):
-    out = exec_or_remind("hyprctl monitors -j")
-    monitors = json.loads(out)
-    active_workspace = monitors[monitor_n]["activeWorkspace"]
+def get_current_workspace():
+    out = exec_or_remind("hyprctl activeworkspace -j")
+    active_workspace = json.loads(out)
     return active_workspace
 
+def get_current_workspace_lastwindow():
+    "return last window in current workspace(address)"
+    active_workspace = get_current_workspace()
+    lastwindow = active_workspace["lastwindow"]
+    return lastwindow
 
 def get_workspaces():
     out = exec_or_remind("hyprctl workspaces -j")

@@ -16,10 +16,16 @@ def exec_or_remind(command):
             f.write("\n----\n{}".format(e.stdout.decode("utf-8")))
 
         # dunst notification
-        subprocess.call(
-            "dunstify -r 1234 -u critical -t 5000 -a 'Hypr' 'Error' 'error log in /tmp/hypr-cus.log'",
-            shell=True,
-        )
+        try:
+            subprocess.call(
+                "dunstify -r 1234 -u critical -t 5000 -a 'Hypr' 'Error' 'error log in /tmp/hypr-cus.log'",
+                shell=True,
+            )
+        except Exception:
+            subprocess.call(
+                "hyprctl notify -1 3000 'rgb(ff1ea3)' 'ERROR: error log in /tmp/hypr-cus.log'",
+                shell=True,
+            )
 
         raise e
 
@@ -59,6 +65,23 @@ def biggest_window_in_workspace(workspace_id):
                 biggest_area = area
                 biggest_win = win
     return biggest_win or windows[0]
+
+def master_window_in_workspace(workspace_id):
+    windows = get_windows()
+    master = None
+    for win in windows:
+        if win["workspace"]["id"] == workspace_id:
+            # if win title or class is empty, skip it
+            if not win["title"] or not win["class"]:
+                continue
+            x, y = win["at"]
+            print(x, y)
+            if x < 100 and y < 200:
+                master = win
+                break
+    if not master:
+        print("no master window found")
+    return master
 
 def focused_monitor():
     out = exec_or_remind("hyprctl monitors -j")

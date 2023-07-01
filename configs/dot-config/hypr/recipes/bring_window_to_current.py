@@ -16,7 +16,7 @@ echo -e "a\nb\nc" | rofi \
 def get_win_name(win):
     return f'{win["class"]}: {win["title"]}'.lower()
 
-cur_workspace = hyprlibs.get_current_workspace(0)["id"]
+cur_workspace = hyprlibs.get_current_workspace()["id"]
 windows = hyprlibs.get_windows()
 
 

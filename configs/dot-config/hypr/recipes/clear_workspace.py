@@ -2,7 +2,7 @@ import hyprlibs
 
 
 cur_win = hyprlibs.get_current_window()["address"]
-cur_workspace = hyprlibs.get_current_workspace(0)["id"]
+cur_workspace = hyprlibs.get_current_workspace()["id"]
 windows = hyprlibs.get_windows()
 
 config = hyprlibs.get_config()

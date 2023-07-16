@@ -149,7 +149,7 @@ alias fcd='fzf-open-alias -t d'
 alias d=dolphin
 alias g=gitui
 alias ht="http"
-alias jj="just -f $HOME/.recipes/Justfile"
+alias jj="python $HOME/.recipes/entry.py"
 alias lzd="lazydocker"
 alias cp="fcp"
 
@@ -321,7 +321,7 @@ eval "$(zoxide init zsh)"
 
 source /usr/share/nvm/init-nvm.sh
 source /home/lon/.config/broot/launcher/bash/br
-
+alias br="br"
 # pnpm
 export PNPM_HOME="/home/lon/.local/share/pnpm"
 export PATH="$PNPM_HOME:$PATH"

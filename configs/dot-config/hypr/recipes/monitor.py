@@ -29,5 +29,20 @@ def sub_scale(
 ):
     alt_scale(-delta)
 
+@app.command()
+def set_scale(
+    scale: float = typer.Argument(1, help="Scale to subtract from current scale")
+):
+    monitor = hyprlibs.focused_monitor()
+    current_scale = monitor["scale"]
+    res_hz = f'{monitor["width"]}x{monitor["height"]}@{monitor["refreshRate"]}'
+    pos = f'{monitor["x"]}x{monitor["y"]}'
+    monitor = monitor["name"]
+    
+
+    cmd = f'hyprctl keyword monitor "{monitor},{res_hz},{pos},{scale}"'
+    print(cmd)
+    hyprlibs.exec_or_remind(cmd)
+
 
 app()

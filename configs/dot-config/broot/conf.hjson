@@ -219,7 +219,6 @@ verbs: [
     },
     {
         invocation: "cdd"
-        shortcut: "c"
         external: "alacritty --working-directory={directory}"
         leave_broot: false
     }
@@ -237,8 +236,8 @@ verbs: [
     },
     {
         invocation: "code"
-        shortcut: "co"
-        external: "/usr/bin/code {file}"
+        shortcut: "c"
+        external: "/usr/bin/code {file} --new-window"
         leave_broot: false
     },
     {

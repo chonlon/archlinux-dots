@@ -1,0 +1,79 @@
+GIT_WORKTREE_DIR:='${HOME}/1_code/.worktree'
+
+worktree-add branch='':
+  #!/usr/bin/env python
+  import sys
+  import os
+  import typer
+
+  branch = '{{branch}}'
+  work_tree_dir = '{{GIT_WORKTREE_DIR}}'
+
+
+  repo = os.popen('git remote get-url origin').read().strip()
+  if not repo:
+    print('not a git repo')
+    sys.exit(1)
+
+  if not os.path.exists(work_tree_dir):
+    os.makedirs(work_tree_dir)
+  if not branch:
+    branch = typer.prompt('branch workdir to create')
+  if not branch:
+    print('no branch specified')
+    sys.exit(1)
+  
+  if os.path.exists(f'{work_tree_dir}/{repo}/{branch}'):
+    print(f'worktree {branch} already exists')
+    sys.exit(1)
+  
+  os.system(f'git worktree add {work_tree_dir}/{repo}/{branch} {branch}')
+  
+
+worktree-remove:
+  #!/usr/bin/env python
+  # dirname=$(git worktree list | fzf | awk '{print $1}')
+  # if [ -n "$dirname" ]; then
+  #   git worktree remove $dirname
+  # fi
+  import os
+  import subprocess
+  import typer
+  dirname = os.popen('git worktree list | fzf | awk \'{print $1}\'').read().strip()
+  if not dirname:
+    print('no worktree selected')
+    sys.exit(1)
+  ret = subprocess.Popen(f'git worktree remove {dirname}', shell=True).wait()
+  if ret != 0:
+    print('failed to remove worktree')
+    force = typer.confirm('force remove?', default=False)
+    if force:
+      os.system(f'rm -rf {dirname}')
+    else:
+      sys.exit(1)
+
+
+remote-open:
+  #!/usr/bin/env python
+  import os
+  import sys
+
+  https_url = os.popen('git remote get-url origin').read().strip()
+  if not https_url:
+    print('not a git repo')
+    sys.exit(1)
+  
+  if https_url.startswith('git@'):
+    https_url = https_url.replace(':', '/').replace('git@', 'https://')
+  
+  # open in browser
+  if sys.platform == 'darwin':
+    os.system(f'open {https_url}')
+  elif sys.platform == 'linux':
+    os.system(f'xdg-open {https_url}')
+  elif sys.platform == 'win32':
+    os.system(f'start {https_url}')
+  else:
+    print('platform not supported')
+    sys.exit(1)
+  

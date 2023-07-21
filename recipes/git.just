@@ -1,2 +1,0 @@
-worktree:
-w: worktree

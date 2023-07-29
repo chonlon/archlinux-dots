@@ -13,7 +13,7 @@ def exec_or_remind(command):
         print("Error: {}".format(e.stdout))
 
         with open("/tmp/hypr-cus.log", "a") as f:
-            f.write("\n----\n{}".format(e.stdout.decode("utf-8")))
+            f.write("\n----\n{}:\n{}".format(command,e.stdout.decode("utf-8")))
 
         # dunst notification
         try:

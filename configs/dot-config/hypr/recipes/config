@@ -1,9 +1,7 @@
 {
   "window": {
     "target_rules": [
-      {"class": "kitty", "workspace": 9},
-      {"title": "滴答清单", "workspace": 7},
-      {"class": "dida", "workspace": 7},
+      {"class": "kitty", "workspace": 8},
       {"class": "Logseq", "workspace": 7},
       {"class": "Feishu", "workspace": 8},
       {"title": "Visual Studio Code", "workspace": 6},

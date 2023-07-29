@@ -1,18 +1,18 @@
 #!/bin/sh
 
 down() {
-pamixer -d 2
+pamixer -d 8
 volume=$(pamixer --get-volume)
 [$volume -gt 0 ] && volume=`expr $volume`  
-dunstify -a "VOLUME" "Decreasing to $volume%" -h int:value:"$volume" -i audio-volume-low-symbolic -r 2593 -u normal
+# dunstify -a "VOLUME" "Decreasing to $volume%" -h int:value:"$volume" -i audio-volume-low-symbolic -r 2593 -u normal
 canberra-gtk-play -i audio-volume-change -d "changevolume"
 }
 
 up() {
-pamixer -i 2
+pamixer -i 8
 volume=$(pamixer --get-volume)
 [ $volume -lt 100 ] && volume=`expr $volume`  
-dunstify -a "VOLUME" "Increasing to $volume%" -h int:value:"$volume" -i audio-volume-high-symbolic -r 2593 -u normal
+#dunstify -a "VOLUME" "Increasing to $volume%" -h int:value:"$volume" -i audio-volume-high-symbolic -r 2593 -u normal
 canberra-gtk-play -i audio-volume-change -d "changevolume"
 }
 

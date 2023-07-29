@@ -15,10 +15,10 @@ def get_helper_workspace():
 
 @app.command()
 def toggle():
-  personal_workspace = get_helper_workspace()
-  if not personal_workspace:
-    print("personal workspace not found")
-    hyprlibs.notify("personal workspace not found, running kitty for you")
+  helper_workspace = get_helper_workspace()
+  if not helper_workspace:
+    print("helper workspace not found")
+    hyprlibs.notify("helper workspace not found, running kitty for you")
     hyprlibs.exec_or_remind(f"hyprctl dispatch exec '[workspace {helper_workspace_name}]' {default_app}")
     import time
     time.sleep(1)
@@ -28,8 +28,15 @@ def toggle():
 
 @app.command()
 def move_to():
-  print(f"hyprctl dispatch movetoworkspace {helper_workspace_name}")
-  hyprlibs.exec_or_remind(f"hyprctl dispatch movetoworkspace {helper_workspace_name}")
+  cur_win = hyprlibs.get_current_window()
+  if cur_win['workspace']['name'] == helper_workspace_name:
+    cur_workspace = hyprlibs.get_current_workspace()
+    hyprlibs.exec_or_remind("hyprctl dispatch movetoworkspace {},address:{}".format(cur_workspace['id'], cur_win['address']))
+    toggle()
+  else:
+    # print(f"hyprctl dispatch movetoworkspace {helper_workspace_name}")
+    hyprlibs.exec_or_remind(f"hyprctl dispatch movetoworkspace {helper_workspace_name}")
+    toggle()
 
 
 # move_to()

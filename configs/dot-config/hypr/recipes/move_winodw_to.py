@@ -9,7 +9,7 @@ def main(
 ):
   cur_win = hyprlibs.get_current_window()
   if dest_workspace == -1:
-    dest_workspace = 9
+    dest_workspace = 8
     config = hyprlibs.get_config()
     target_rules = config["window"]["target_rules"]
     for rule in target_rules:

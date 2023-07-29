@@ -5,7 +5,7 @@ import textwrap
 
 
 """
-this script will show the image from the clipboard, **ONLY WORKS WITH HYPRLAND**
+this script will show(pin) the image from the clipboard, **ONLY WORKS WITH HYPRLAND**
 qimgv, wl-paste and hyprctl are required, python pillow is also required
 """
 

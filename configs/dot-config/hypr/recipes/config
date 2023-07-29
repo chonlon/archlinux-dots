@@ -8,8 +8,11 @@
       {"class": "Feishu", "workspace": 8},
       {"title": "Visual Studio Code", "workspace": 6},
       {"title": "sublime text", "workspace": 6},
+      {"title": "Sublime Text", "workspace": 6},
       {"title": "firefox", "workspace": 5},
-      {"title": "Google Chrome", "workspace": 5}
+      {"class": "Google-chrome", "workspace": 5},
+      {"title": "Google Chrome", "workspace": 5},
+      {"title": "Google chrome", "workspace": 5}
     ]
   }
 }

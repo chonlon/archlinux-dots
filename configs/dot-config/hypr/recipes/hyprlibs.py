@@ -127,3 +127,6 @@ def is_window_match(win, rule):
     if "class" in rule and rule["class"] and win["class"] != rule["class"]:
         return False
     return True
+
+def notify(msg):
+    exec_or_remind("notify-send -t 3000 '{}'".format(msg))

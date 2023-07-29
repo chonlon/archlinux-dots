@@ -1,5 +1,6 @@
 import os
 import hyprlibs
+import typer
 from PIL import Image, ImageDraw, ImageFont
 import textwrap
 
@@ -54,18 +55,33 @@ def get_image_size(image_path):
     image = Image.open(image_path)
     return image.size
 
-mime_type_out = "wl-paste -l" 
-mime_type = hyprlibs.exec_or_remind(mime_type_out)
+app = typer.Typer()
 
-if mime_type.find("text") != -1:
-  text = "wl-paste"
-  text = hyprlibs.exec_or_remind(text)
-  simple_text_to_image(text, "/tmp/clipboard.png")
-else:
-  paste = "wl-paste -t image/png > /tmp/clipboard.png"
-  hyprlibs.exec_or_remind(paste)
+@app.command()
+def show():
 
-iw, ih = get_image_size("/tmp/clipboard.png")
+    mime_type_out = "wl-paste -l" 
+    mime_type = hyprlibs.exec_or_remind(mime_type_out)
 
-show = f'hyprctl dispatch exec "[float;pin;size {iw} {ih}]" qimgv /tmp/clipboard.png'
-hyprlibs.exec_or_remind(show)
+    if mime_type.find("text") != -1:
+      text = "wl-paste"
+      text = hyprlibs.exec_or_remind(text)
+      simple_text_to_image(text, "/tmp/clipboard.png")
+    else:
+      paste = "wl-paste -t image/png > /tmp/clipboard.png"
+      hyprlibs.exec_or_remind(paste)
+
+    iw, ih = get_image_size("/tmp/clipboard.png")
+
+    show = f'hyprctl dispatch exec "[float;pin;size {iw} {ih};bordersize 2; bordercolor rgba(ffff81ac);opacity 0.7;rounding 0;]" qimgv /tmp/clipboard.png'
+    hyprlibs.exec_or_remind(show)
+
+@app.command()
+def edit():
+    save = "wl-paste -t image/png > /tmp/clipboard.png"
+    hyprlibs.exec_or_remind(save)
+
+    edit = "swappy -f /tmp/clipboard.png"
+    hyprlibs.exec_or_remind(edit)
+
+app()

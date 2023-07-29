@@ -17,7 +17,7 @@ for win in windows:
             continue
         if win["address"] == master["address"]:
             continue
-        target_workspace = 9
+        target_workspace = 8
         for rule in target_rules:
             if hyprlibs.is_window_match(win, rule):
                 target_workspace = rule["workspace"]

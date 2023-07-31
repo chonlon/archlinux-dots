@@ -31,7 +31,7 @@
         "interval": 60,
         "format": "{:%m-%d  %H:%M}",
         "max-length": 25,
-        "on-click": "alacritty  --class calendar -e calcure",
+        "on-click": "python ~/.config/hypr/recipes/personal_workspace.py toggle",
         "tooltip-format": "<big>{:%B %Y}</big>\n<tt><small>{calendar}</small></tt>"
     },
 

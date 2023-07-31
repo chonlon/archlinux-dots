@@ -242,8 +242,8 @@ function copy() {
     else
         dirn="$(readlink -f $1)"
     fi
-    copyq add ${dirn}
-    echo ${dirn}
+    wl-copy ${dirn}
+    echo copied \'${dirn}\' to clipboard
 }
 
 
@@ -306,7 +306,7 @@ alias p='set_proxy'
 alias np='no_proxy'
 
 export EDITOR="nvim"
-alias e=$EDITOR
+alias e="subl"
 
 # Set shell options: http://zsh.sourceforge.net/Doc/Release/Options.html.
 setopt glob_dots     # no special treatment for file names with a leading dot

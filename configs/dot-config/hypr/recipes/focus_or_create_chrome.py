@@ -3,9 +3,18 @@ import typer
 
 app = typer.Typer()
 
-cmd = "google-chrome-stable"
-title = "google chrome"
-class_name = "google-chrome"
+# cmd = "microsoft-edge-stable --password-store=gnome --ozone-platform-hint=auto --gtk-version=4"
+# title = "Edge"
+# class_name = "microsoft-edge"
+
+cmd = "vivaldi-stable"
+title = "Vivaldi"
+class_name = "vivaldi-stable"
+
+#cmd = "firefox"
+#title = "Firefox"
+#class_name = "firefox"
+
 chrome_workspace = 5
 make_master = True
 
@@ -19,7 +28,7 @@ windows = hyprlibs.get_windows()
 
 def find_in_workspace(workspace):
     for win in windows:
-        if win["title"].lower() == title or win["class"].lower() == class_name:
+        if win["title"].find(title) > 0 or win["class"] == class_name:
             if win["workspace"]["id"] == workspace:
                 return win
     return None
@@ -27,7 +36,7 @@ def find_in_workspace(workspace):
 
 def find_in_all():
     for win in windows:
-        if win["title"].lower() == title or win["class"].lower() == class_name:
+        if win["title"].find(title) > 0 or win["class"] == class_name:
             return win
     return None
 
@@ -51,7 +60,7 @@ if win is not None:
 
     if make_master:
         win_workspace = win["workspace"]["id"]
-        bwin = hyprlibs.master_window_in_workspace(win_workspace)
+        bwin = hyprlibs.biggest_window_in_workspace(win_workspace)
         if win["address"] == bwin["address"]:
             print("already master")
             if win["workspace"]["id"] == cur_workspace:

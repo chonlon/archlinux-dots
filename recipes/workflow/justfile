@@ -1,0 +1,29 @@
+recipe := "$HOME/.recipes/workflow/r.py"
+
+help:
+  python {{recipe}} help
+
+[no-cd]
+achieve_folder *args:
+  python {{recipe}} achieve-folder {{args}}
+
+[no-cd]
+achieve_file *args:
+  python {{recipe}} achieve-file {{args}}
+
+[no-cd]
+achieve_all_files *args:
+  python {{recipe}} achieve-all-files {{args}}
+
+
+ad *args:
+  just achieve_folder {{args}}
+af *args:
+  just achieve_file {{args}}
+
+
+clone_test *args:
+  python {{recipe}} clone-test {{args}}
+
+create_test *args:
+  python {{recipe}} create-test {{args}}

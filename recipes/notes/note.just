@@ -9,4 +9,3 @@ push:
 code:
   cd {{note_dir}} && code .
 
-

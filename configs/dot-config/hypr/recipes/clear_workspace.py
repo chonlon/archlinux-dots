@@ -17,12 +17,11 @@ for win in windows:
             continue
         if win["address"] == master["address"]:
             continue
-        target_workspace = 8
+        target_workspace = "name:misc"
         for rule in target_rules:
             if hyprlibs.is_window_match(win, rule):
                 target_workspace = rule["workspace"]
                 break
-        
         print("closing: {}-{}".format(win["address"], win["title"]))
         hyprlibs.exec_or_remind("hyprctl dispatch movetoworkspacesilent {},address:{}".format(target_workspace , win["address"]))
         hyprlibs.exec_or_remind("hyprctl dispatch cyclenext")

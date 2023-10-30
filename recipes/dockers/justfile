@@ -1,3 +1,5 @@
+apps:
+    docker ps -a
 
 # init alist by default
 alist-start:
@@ -27,6 +29,8 @@ syncthing-start:
   docker run -itd --restart=always \
     -p 8080:8384 -p 30029:22000 \
     -v /home/lon/5_app/syncthing/data:/var/syncthing \
+    -v /home/lon/3_lon/notes:/var/syncthing/Sync/notes \
+    -v /home/lon/3_lon/archlinux-dots/:/var/syncthing/Sync/arch-dots \
     --hostname=lon-syncthing-home \
     --name=syncthing \
     syncthing/syncthing:latest

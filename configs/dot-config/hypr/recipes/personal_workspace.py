@@ -3,6 +3,7 @@ import hyprlibs
 
 personal_workspace_name = "special:personal"
 personal_workspace_name_raw = "personal"
+# default_app = "/opt/google/chrome/google-chrome --profile-directory=Default --app-id=lhkfonfikbojlapbmofnpdmgfmeoeaoe"
 default_app = "dida"
 app = typer.Typer()
 

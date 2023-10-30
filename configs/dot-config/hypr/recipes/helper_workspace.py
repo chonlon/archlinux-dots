@@ -21,7 +21,7 @@ def toggle():
     hyprlibs.notify("helper workspace not found, running kitty for you")
     hyprlibs.exec_or_remind(f"hyprctl dispatch exec '[workspace {helper_workspace_name}]' {default_app}")
     import time
-    time.sleep(1)
+    # time.sleep(1)
     
   
   hyprlibs.exec_or_remind(f"hyprctl dispatch togglespecialworkspace {helper_workspace_name_raw}")

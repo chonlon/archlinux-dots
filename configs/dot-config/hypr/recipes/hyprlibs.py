@@ -44,6 +44,14 @@ def get_current_workspace_lastwindow():
     active_workspace = get_current_workspace()
     lastwindow = active_workspace["lastwindow"]
     return lastwindow
+def get_windows_cur_workspace():
+    windows = get_windows()
+    rst = []
+    cur_workspace = get_current_workspace()
+    for win in windows:
+        if win["workspace"]["id"] == cur_workspace["id"]:
+            rst.append(win)
+    return rst
 
 def get_workspaces():
     out = exec_or_remind("hyprctl workspaces -j")

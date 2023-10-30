@@ -1,68 +1,19 @@
-ali-conf := "/home/lon/.kube/ali.config"
-huawei-conf := "/home/lon/.kube/huawei.config"
+prod-conf := "$HOME/.kube/prod.config"
+test-conf := "$HOME/.kube/test.config"
+dev-conf  := "$HOME/.kube/dev.config"
 
 
-_helm _conf *args:
-	#!/usr/bin/env python
-	import typer
-	import os
+set-prod:
+	rm $HOME/.kube/config && ln -s {{prod-conf}} $HOME/.kube/config
 
+set-test:
+	rm $HOME/.kube/config && ln -s {{test-conf}} $HOME/.kube/config
 
-	conf = '{{_conf}}'
-	args = '{{args}}'
-	
-	args = args.split(' ')
-	args = [x for x in args if x != ''] # convert to list and remove empty string
+set-dev:
+	rm $HOME/.kube/config && ln -s {{dev-conf}} $HOME/.kube/config
 
-	if len(args) == 0:
-		# ask for input
-		args = typer.prompt('input helm args').split(' ')
+prod-k9s: set-prod
+	k9s
 
-	if args[0] == 'helm':
-		args = args[1:]
-	
-	cmd = f'helm --kubeconfig {conf} {" ".join(args)}'
-	print('run for cmd:', cmd)
-	os.system(cmd)
-
-_ctl _conf *args:
-	#!/usr/bin/env python
-	import typer
-	import os
-
-
-	conf = '{{_conf}}'
-	args = '{{args}}'
-	args = args.split(' ')
-	args = [x for x in args if x != ''] # convert to list and remove empty string
-	
-	
-	if len(args) == 0:
-		# ask for input
-		args = typer.prompt('input kubectl args').split(' ')
-
-	if args[0] == 'kubectl':
-		args = args[1:]
-	
-	cmd = f'kubectl --kubeconfig {conf} {" ".join(args)}'
-	print('run for cmd:', cmd)
-	os.system(cmd)
-
-
-ali-k9s:
-	k9s --kubeconfig {{ali-conf}}
-ali-helm *args:
-	just _helm {{ali-conf}} {{args}}
-ali-ctl *args:
-	just _ctl {{ali-conf}} {{args}}
-
-huawei-k9s:
-	k9s --kubeconfig {{huawei-conf}}
-
-huawei-helm *args:
-	@- just _helm {{huawei-conf}} {{args}}
-
-huawei-ctl *args: 
-	@- just _ctl {{huawei-conf}} {{args}}
-
-
+test-k9s: set-test
+	k9s

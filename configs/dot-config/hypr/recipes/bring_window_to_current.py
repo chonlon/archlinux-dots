@@ -17,6 +17,8 @@ def get_win_name(win):
     return f'{win["class"]}: {win["title"]}'.lower()
 
 cur_workspace = hyprlibs.get_current_workspace()["id"]
+if cur_workspace < 0:
+    cur_workspace = f'name:hyprlibs.get_current_workspace()["name"]'
 windows = hyprlibs.get_windows()
 
 

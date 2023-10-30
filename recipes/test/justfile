@@ -1,0 +1,2 @@
+e:
+  just -f sub.just

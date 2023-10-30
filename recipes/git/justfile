@@ -6,7 +6,7 @@ worktree-add branch='':
   import os
   import typer
 
-  branch = '{{branch}}'
+  branch = '{{branch}}'g
   work_tree_dir = '{{GIT_WORKTREE_DIR}}'
 
 

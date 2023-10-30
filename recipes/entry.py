@@ -1,6 +1,7 @@
 import os
 import sys
 from pathlib import Path
+import utils
 
 args = os.sys.argv
 args = args[1:]
@@ -24,11 +25,12 @@ for directory in os.listdir(reciepes_dir):
 
 def run_recipe(recipe, args):
   # make soft link replace to real path
-  recipe = os.path.realpath(recipe)
+  recipe = os.path.realpath(recipe) + '/justfile'
+  pwd = os.getcwd()
   if len(args) == 0:
-    cmd = f'cd {recipe} && just --choose'
+    cmd = f'cd {pwd} && just --choose -f {recipe}'
   else:
-    cmd = f'cd {recipe} && just {" ".join(args)}'
+    cmd = f'cd {pwd} && just -f {recipe} {" ".join(args)}'
 
   print(cmd)
   os.system(cmd)
@@ -41,4 +43,9 @@ else:
   reciepes = [r.replace('/justfile', '') for r in reciepes]
   print(f'no such recipe: {command}')
   print(f'available recipes: {reciepes}')
+  recipe = utils.choose_in_options(reciepes)
+  if recipe is not None:
+    recipe = reciepes_dir / recipe
+    run_recipe(recipe, args)
+    exit(0)
   exit(1)

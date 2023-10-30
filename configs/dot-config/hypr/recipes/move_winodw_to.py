@@ -5,11 +5,11 @@ from sys import argv as args
 app = typer.Typer()
 
 def main(
-  dest_workspace: int = typer.Argument(-1, help="Workspace to move window to")
+  dest_workspace: str = typer.Argument("-1", help="Workspace to move window to")
 ):
   cur_win = hyprlibs.get_current_window()
-  if dest_workspace == -1:
-    dest_workspace = 8
+  if dest_workspace == "-1":
+    dest_workspace = "name:misc"
     config = hyprlibs.get_config()
     target_rules = config["window"]["target_rules"]
     for rule in target_rules:

@@ -22,6 +22,7 @@ def run_command(command):
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             universal_newlines=True,
+            timeout=100,
         )
         return result.stdout.strip()
     except subprocess.CalledProcessError as e:
@@ -176,6 +177,48 @@ def choose_in_options(options: list, cmd="fzf"):
 
     return out
 
+def choose_in_dmenu(options: list|str, placeholder='',cmd='tofi', auto_accept_single=True):
+    # impl tofi only
+    options = [str(o) for o in options]
+    options = "\n".join(options)
+    options = options.encode("utf-8")
+    if is_empty(options):
+        return None
+    if placeholder and len(placeholder)> 0:
+        cmd = [cmd, f"--prompt-text={placeholder} "]
+    else:
+        cmd = [cmd]
+    
+    if auto_accept_single:
+        cmd.append("--auto-accept-single=true")
+    cmd.append("--fuzzy-match=true")
+    proc = subprocess.run(
+        cmd,
+        input=options,
+        shell=False,
+        stdout=subprocess.PIPE,
+    )
+    out = proc.stdout.decode("utf-8").strip()
+
+    return out
+
+def confirm_in_dmenu():
+  choice = ["y", "n"]
+  out = choose_in_dmenu(choice, "Are you sure?")
+  if out and len(out) > 0 and out == "y":
+      return True
+  return False
+
+def select_zoxide_path(count: int = 1000):
+  cmd = "zoxide query -l"
+  try:
+    out = run_command(cmd)
+    out = out.split('\n')
+    out = out[:count]
+  except:
+    pass
+  out = choose_in_dmenu(out, "choose directory to open in vscode")
+  return out
 
 def to_clipboard(text):
     """

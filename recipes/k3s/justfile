@@ -1,0 +1,32 @@
+uninstall-raw:
+  python ~/.recipes/k3s/k3s.py uk3
+install-raw:
+  python ~/.recipes/k3s/k3s.py install
+
+web-ui:
+  autok3s serve
+uninstall:
+  autok3s delete -f -p native -n dev
+list:
+  autok3s list
+install:
+  autok3s create -p native \
+    --name dev \
+    --master-ips 127.0.0.1 \
+    --k3s-install-mirror  INSTALL_K3S_MIRROR=cn \
+    --k3s-install-script 'https://rancher-mirror.rancher.cn/k3s/k3s-install.sh' \
+    --enable explore \
+    --enable rancher
+  autok3s kubectl config view --raw > ~/.kube/dev.config
+
+install-cilium:
+  autok3s create -p native \
+    --name dev \
+    --master-ips 127.0.0.1 \
+    --k3s-install-mirror  INSTALL_K3S_MIRROR=cn \
+    --k3s-install-script 'https://rancher-mirror.rancher.cn/k3s/k3s-install.sh' \
+    --enable explore \
+    --enable rancher \
+    --master-extra-args "--disable-network-policy --disable traefik --disable servicelb --flannel-backend none"
+  autok3s kubectl config view --raw > ~/.kube/dev.config
+  - kubectl create -f https://raw.githubusercontent.com/cilium/cilium/v1.7/install/kubernetes/quick-install.yaml

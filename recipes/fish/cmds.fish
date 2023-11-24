@@ -19,9 +19,16 @@ alias g=gitui
 alias ht="http"
 alias cp="fcp"
 alias hd="atuin search -i --filter-mode directory"
+alias cu="/opt/appimages/cursor.AppImage"
 alias lzd="lazydocker"
 alias k="k9s"
 alias kc="kubectl"
+
+function md
+    if count $argv > /dev/null
+     mkdir -p -- "$argv[1]" && cd -- "$argv[1]"
+    end
+end
 
 function copy
     set -l dirn

@@ -100,7 +100,7 @@ special_paths: {
 # to cancel (for example when you just opened broot), uncomment
 # this parameter
 # 
-quit_on_last_cancel: true
+quit_on_last_cancel: false
 
 ###############################################################
 # Search modes
@@ -190,12 +190,24 @@ imports: [
 
 verbs: [
     {
-        key: "left",
+        key: "alt-l",
         internal: "panel_left"
     },
     {
-        key: "right",
+        key: "alt-j",
         internal: "panel_right"
+    },
+    {
+        key: "alt-k",
+        internal: "toggle_preview"
+    },
+    {
+        key: "alt-n",
+        internal: "focus"
+    },
+    {
+        key: "ctrl-c",
+        internal: "input_selection_copy"
     },
     {
     	invocation: edit
@@ -204,10 +216,10 @@ verbs: [
         external: "nvim {file}"
         leave_broot: false
     },
-     {
-        invocation: "subl"
-        shortcut: "s"
-        external: "/usr/bin/subl {file}"
+    {
+    	invocation: edit-ext
+        shortcut: ee
+        external: "python /home/lon/.recipes/entry.py private edit-external {file}"
         leave_broot: false
     },
     {
@@ -225,8 +237,8 @@ verbs: [
     },
     {
         invocation: "cdd"
-        shortcut: "c"
-        external: "alacritty --working-directory={directory}"
+        external: "python /home/lon/.recipes/entry.py private alacritty {directory}"
+        # external: "alacritty --working-directory={directory}"
         leave_broot: false
     }
     {
@@ -236,21 +248,21 @@ verbs: [
         leave_broot: false
     },
     {
-        invocation: "copyq"
-        shortcut: "cq"
-        external: "/usr/bin/copyq add {file}"
+        invocation: "copyf"
+        shortcut: "cf"
+        external: "wl-copy {file}"
         leave_broot: false
     },
     {
         invocation: "code"
         shortcut: "c"
-        external: "/usr/bin/code {file}"
+        external: "/usr/bin/code {file} --new-window"
         leave_broot: false
     },
     {
     	invocation: "dir"
-        shortcut: "d"
-    	external: "nemo {file}"
+	    shortcut: "d"
+    	external: "files {file}"
     	leave_broot: false
     }
 ]

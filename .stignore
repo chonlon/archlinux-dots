@@ -1,0 +1,9 @@
+.git/
+.gitignore/
+!configs/dot-config/broot/**
+!configs/dot-config/hypr/**
+!configs/dot-config/waybar/**
+!configs/dot-config/ags/**
+!configs/.z4hrc
+!recipes/
+configs/

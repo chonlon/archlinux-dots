@@ -1,7 +1,11 @@
 prod-conf := "$HOME/.kube/prod.config"
 test-conf := "$HOME/.kube/test.config"
 dev-conf  := "$HOME/.kube/dev.config"
+exec-pod *args:
+	python ~/.recipes/k8s/k8s.py exec-pod {{args}}
 
+debug-pod *args:
+	python ~/.recipes/k8s/k8s.py pod-debug {{args}}
 
 set-prod:
 	rm $HOME/.kube/config && ln -s {{prod-conf}} $HOME/.kube/config

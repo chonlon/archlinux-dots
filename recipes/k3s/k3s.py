@@ -25,6 +25,7 @@ def uninstall_k3s():
 
 @app.command("install")
 def install_k3s():
-  pass
-
+  os.system("curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | INSTALL_K3S_MIRROR=cn sh -")
+  os.system("sudo k3s kubectl config view --raw > ~/.kube/dev.config")
+    
 app()

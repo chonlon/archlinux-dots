@@ -27,3 +27,6 @@ clone_test *args:
 
 create_test *args:
   python {{recipe}} create-test {{args}}
+
+serve_download:
+  cd $HOME/Downloads && http-server . -p 8000

@@ -93,6 +93,26 @@ button:hover {
   /* background-color: #1f2530; */
 }
 
+#taskbar {
+    border-radius: 0px 3px 3px 0;
+    padding: 0 10px;
+    margin: 0 0px;
+    color: #ffffff;
+    background-color: rgba(131, 96, 150,0.3);
+}
+#taskbar button {
+    border-radius: 3px 3px 3px 3px;
+    margin: 1px 1px;
+    color: #ffffff;
+    background-color: rgba(120,118,117,0.1);
+}
+#taskbar button.active {
+    background-color: rgba(240,184,110,0.8);
+}
+#taskbar button.fullscreen {
+    background-color: rgba(240,10,10,0.8);
+}
+
 #window,
 #workspaces {
   margin: 0 4px;

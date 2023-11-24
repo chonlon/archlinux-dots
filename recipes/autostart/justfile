@@ -1,0 +1,37 @@
+copyq:
+  - pkill copyq
+  - copyq &
+
+waybar:
+  - pkill waybar
+  - waybar &
+
+ags:
+  - pkill ags
+  - ags &
+
+logseq:
+  - hyprctl dispatch exec "[workspace name:logseq silent]" logseq &
+
+cfw:
+  - hyprctl dispatch exec "[workspace name:terminal silent]" cfw &
+
+go_w1:
+  - hyprctl dispatch workspace 1
+blueman:
+  - blueman-applet &
+
+wait:
+  sleep 2
+
+wait2:
+  sleep 4
+
+swaylock:
+  - swayidle -w timeout 7200 'swaylock' before-sleep 'swaylock -f' &
+s1: wait cfw
+s2: wait blueman swaylock
+s3: wait copyq
+s4: wait2 logseq wait2 go_w1 waybar waybar 
+
+all: s1 s2 s3 s4

@@ -1,44 +1,40 @@
 import typer
 import os
-from typing import List
+app = typer.Typer()
+map = {
+        "curl": "curl",
+        "alpine": "alpine",
+        "network": "rancher/network-manager:v0.7.22",
+        "ubuntu": "ubuntu:22.04",
+        "debian": "debian",
+        "utils": "arunvelsriram/utils"
+    }
 
-args = os.sys.argv
-
-
-def helm(conf: str, args: List[str]):
-    args = [x for x in args if x != ""]  # convert to list and remove empty string
-
-    if len(args) == 0:
-        # ask for input
-        args = typer.prompt("input helm args").split(" ")
-
-    if args[0] == "helm":
-        args = args[1:]
-
-    cmd = f'helm --kubeconfig {conf} {" ".join(args)}'
-    print("run for cmd:", cmd)
-    os.system(cmd)
-
-
-def ctl(conf: str, args: List[str]):
-    args = [x for x in args if x != ""]  # convert to list and remove empty string
-
-    if len(args) == 0:
-        # ask for input
-        args = typer.prompt("input kubectl args").split(" ")
-
-    if args[0] == "kubectl":
-        args = args[1:]
-
-    cmd = f'kubectl --kubeconfig {conf} {" ".join(args)}'
-    print("run for cmd:", cmd)
-    os.system(cmd)
+def get_image(name):
+  image = map.get(name, '')
+  if len(image) == 0:
+    print("valaid names is: ", " ".join(map.keys()))
+  return image
+@app.command()
+def pod_debug(name):
     
-run = args[1]
-conf = args[2]
-args = args[3:]
+    image = get_image(name)
+    yaml_file = "debug-template.yaml"
+    with open(yaml_file, 'r') as file:
+        data = file.read()
+    
+    data = data.replace('__NAME__', name)
+    data = data.replace('__IMAGE__', image)
 
-if run == 'helm':
-    helm(conf, args)
-if run == 'ctl':
-    ctl(conf, args)
+    with open('pod.yaml', 'w') as file:
+        file.write(data)
+    os.system("kubectl apply -f pod.yaml")
+    os.system("rm pod.yaml")
+
+@app.command()
+def exec_pod(name):
+  image = get_image(name)
+  cmd = f'kubectl run --rm utils -it --image {image} bash -n test'
+  os.system(cmd)
+
+app()

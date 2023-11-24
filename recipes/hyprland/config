@@ -1,0 +1,41 @@
+{
+  "window": {
+    "target_rules": [
+      {"class": "kitty", "workspace": "name:terminal"},
+      {"class": "dida", "workspace": "name:personal"},
+      {"class": "Alacritty", "workspace": "name:terminal"},
+      {"class": "Logseq", "workspace": "name:logseq"},
+      {"class": "Feishu", "workspace": "name:feishu"},
+      {"title": "Visual Studio Code", "workspace": "name:code"},
+      {"title": "sublime text", "workspace": "name:vim"},
+      {"title": "Sublime Text", "workspace": "name:vim"},
+      {"class": "firefox", "workspace": "name:firefox"},
+      {"title": "firefox", "workspace": "name:firefox"},
+      {"title": "Sidekick", "workspace": "name:firefox"},
+      {"title": "Edge", "workspace": "name:firefox"},
+      {"class": "Microsoft-edge", "workspace": "name:firefox"},
+      {"class": "vivaldi-stable", "workspace": "name:firefox"},
+      {"title": "Vivaldi", "workspace": "name:firefox"},
+      {"class": "Google-chrome", "workspace": 5},
+      {"title": "Google Chrome", "workspace": 5},
+      {"title": "Google chrome", "workspace": 5}
+    ]
+  },
+  "workspace":{
+    "name:personal": {
+      "app": "dida"
+    },
+    "name:logseq": {
+      "app": "logseq"
+    },
+    "name:code": {
+      "app": "code"
+    },
+    "name:firefox": {
+      "app": "vivaldi"
+    },
+    "name:terminal": {
+      "app": "kitty"
+    }
+  }
+}

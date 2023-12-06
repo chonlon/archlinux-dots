@@ -1,22 +1,20 @@
 uninstall-raw:
   python ~/.recipes/k3s/k3s.py uk3
-install-raw:
-  python ~/.recipes/k3s/k3s.py install
+install-raw *arg:
+  python ~/.recipes/k3s/k3s.py install {{arg}}
 
 web-ui:
   autok3s serve
 uninstall:
-  autok3s delete -f -p native -n dev
+  autok3s delete -f -p k3d -n dev
 list:
   autok3s list
 install:
-  autok3s create -p native \
+  autok3s create -p k3d \
     --name dev \
-    --master-ips 127.0.0.1 \
-    --k3s-install-mirror  INSTALL_K3S_MIRROR=cn \
-    --k3s-install-script 'https://rancher-mirror.rancher.cn/k3s/k3s-install.sh' \
-    --enable explore \
-    --enable rancher
+    --master 1 \
+    --worker 1 \
+    --image 'docker.io/rancher/k3s:v1.26.10+k3s1'
   autok3s kubectl config view --raw > ~/.kube/dev.config
 
 install-cilium:

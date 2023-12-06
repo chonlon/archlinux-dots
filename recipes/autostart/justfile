@@ -1,3 +1,9 @@
+copyq-server:
+  copyq --start-server
+  pkill copyq
+  sleep 5
+  copyq --start-server &
+  copyq &
 copyq:
   - pkill copyq
   - copyq &
@@ -14,7 +20,7 @@ logseq:
   - hyprctl dispatch exec "[workspace name:logseq silent]" logseq &
 
 cfw:
-  - hyprctl dispatch exec "[workspace name:terminal silent]" cfw &
+  - hyprctl dispatch exec "[workspace name:proxy silent]" clash-verge &
 
 go_w1:
   - hyprctl dispatch workspace 1
@@ -31,7 +37,7 @@ swaylock:
   - swayidle -w timeout 7200 'swaylock' before-sleep 'swaylock -f' &
 s1: wait cfw
 s2: wait blueman swaylock
-s3: wait copyq
-s4: wait2 logseq wait2 go_w1 waybar waybar 
+s3: wait2
+s4: wait2 logseq wait2 go_w1 waybar copyq-server
 
 all: s1 s2 s3 s4

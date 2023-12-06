@@ -1,4 +1,5 @@
 set -x PATH $PATH $HOME/.local/bin
+set -x EDITOR "code --wait --new-window"
 
 # Define aliases.
 alias l='exa -lah'
@@ -22,12 +23,45 @@ alias hd="atuin search -i --filter-mode directory"
 alias cu="/opt/appimages/cursor.AppImage"
 alias lzd="lazydocker"
 alias k="k9s"
+alias e=$EDITOR
 alias kc="kubectl"
+alias cw="code --wait"
 
 function md
-    if count $argv > /dev/null
-     mkdir -p -- "$argv[1]" && cd -- "$argv[1]"
+    if count $argv >/dev/null
+        mkdir -p -- "$argv[1]" && cd -- "$argv[1]"
     end
+end
+
+function ze
+    zellij -l compact $argv
+end
+
+function p
+    export http_proxy="http://127.0.0.1:7890/"
+    export ftp_proxy="ftp://127.0.0.1:7890/"
+    export rsync_proxy="rsync://127.0.0.1:7890/"
+    export no_proxy="localhost,127.0.0.1,192.168.1.1,::1,*.local"
+    export HTTP_PROXY="http://127.0.0.1:7890/"
+    export FTP_PROXY="ftp://127.0.0.1:7890/"
+    export RSYNC_PROXY="rsync://127.0.0.1:7890/"
+    export NO_PROXY="localhost,127.0.0.1,192.168.1.1,::1,*.local"
+    export https_proxy="http://127.0.0.1:7890/"
+    export HTTPS_PROXY="http://127.0.0.1:7890/"
+
+end
+
+function np
+    unset http_proxy
+    unset ftp_proxy
+    unset rsync_proxy
+    unset no_proxy
+    unset HTTP_PROXY
+    unset FTP_PROXY
+    unset RSYNC_PROXY
+    unset NO_PROXY
+    unset https_proxy
+    unset HTTPS_PROXY
 end
 
 function copy

@@ -11,7 +11,7 @@ def get_workspace(name):
   print(name)
   print(workspaces)
   for ws in workspaces:
-    if ws["name"] == name or ws["name"] == 'name:' + name:
+    if ws["name"] == name or ws["name"] == 'name:' + name or ws["name"] == 'special:' + name:
       return ws
   return None
 
@@ -27,6 +27,23 @@ def toggle(name: str):
     
   hyprlibs.exec_or_remind(f"hyprctl dispatch workspace name:{name}")
 
+@app.command()
+def toggle_helper(name: str):
+  personal_workspace = get_workspace(name)
+  create = True
+  if not personal_workspace:
+    create = True
+  else:
+    apps = hyprlibs.get_windows()
+    for _app in apps:
+      if _app["workspace"]["name"] == f"special:{name}":
+        create = False
+  if create:
+    default_app = workspace[f"special:{name}"]["app"]
+    hyprlibs.exec_or_remind(f"hyprctl dispatch exec '[workspace special:{name}] {default_app}'")
+  # hyprlibs.exec_or_remind(f"hyprctl dispatch exec '[workspace special:{name}] kitty'")
+  hyprlibs.exec_or_remind(f"hyprctl dispatch togglespecialworkspace {name}")
+
 
 # @app.command()
 # def move_to():
@@ -34,7 +51,7 @@ def toggle(name: str):
 
 @app.command()
 def switch():
-  w = hyprlibs.choose_in_dmenu([name.replace('name:', '') for name in workspace.keys()])
+  w = hyprlibs.choose_in_dmenu([name.replace('name:', '') for name in workspace.keys()], "choose workspace")
   
   print(f"choosen {w}")
   if w and len(w):

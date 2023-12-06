@@ -18,7 +18,9 @@
       {"title": "Vivaldi", "workspace": "name:firefox"},
       {"class": "Google-chrome", "workspace": 5},
       {"title": "Google Chrome", "workspace": 5},
-      {"title": "Google chrome", "workspace": 5}
+      {"title": "Google chrome", "workspace": 5},
+      {"class": "yesplaymusic", "workspace": "name:music"},
+      {"class": "clash-verge", "workspace": "name:proxy"}
     ]
   },
   "workspace":{
@@ -36,6 +38,21 @@
     },
     "name:terminal": {
       "app": "kitty"
+    },
+    "name:music": {
+      "app": "/opt/appimages/yesplaymusic.AppImage"
+    },
+    "special:h1": {
+      "app": "kitty -e k9s"
+    },
+    "special:h2": {
+      "app": "kitty -e ipython"
+    },
+    "special:h3": {
+      "app": "clash-verge"
+    },
+    "special:h4": {
+      "app": "kitty -e btm"
     }
   }
 }

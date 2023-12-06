@@ -2,7 +2,7 @@ import typer
 import os
 app = typer.Typer()
 map = {
-        "curl": "curl",
+        "curl": "quay.io/curl/curl:latest",
         "alpine": "alpine",
         "network": "rancher/network-manager:v0.7.22",
         "ubuntu": "ubuntu:22.04",
@@ -34,7 +34,7 @@ def pod_debug(name):
 @app.command()
 def exec_pod(name):
   image = get_image(name)
-  cmd = f'kubectl run --rm utils -it --image {image} bash -n test'
+  cmd = f'kubectl run --rm {name} -it --image {image} sh -n test'
   os.system(cmd)
 
 app()

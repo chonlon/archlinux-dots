@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: registry-proxy-config
+  namespace: registry-proxy
+data:
+  config.yaml: |
+    proxies:
+      docker.io: dockerproxy.com
+      registry.k8s.io: k8s.dockerproxy.com
+      quay.io: quay.dockerproxy.com
+      ghcr.io: ghcr.dockerproxy.com
+      gcr.io: gcr.dockerproxy.com
+      k8s.gcr.io: k8s-gcr.dockerproxy.com
+      docker.cloudsmith.io: cloudsmith.dockerproxy.com
+    excludeNamespaces:
+    - kube-system
+    - kube-public
+    - kube-node-lease
+    includeNamespaces:
+    - "*"

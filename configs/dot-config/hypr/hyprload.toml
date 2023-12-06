@@ -1,0 +1,4 @@
+plugins = [
+  "hyprwm/hyprland-plugins",
+  "DreamMaoMao/hycov"
+]

@@ -77,7 +77,7 @@ cmds = {
   # make broswers wayland or x11
 }
 
-choosen = utils.choose_in_dmenu(cmds.keys())
+choosen = utils.choose_in_dmenu(cmds.keys(), "run:")
 if choosen and len(choosen):
   func = cmds.get(choosen)
   if func:

@@ -1,0 +1,17 @@
+cvenv:
+  python -m venv $HOME/.local/share/venv/dev
+
+avenv:
+  source $HOME/.local/share/venv/dev/bin/activate && fish
+
+base64d:
+  #! /usr/bin/bash
+  echo Input str to decode in base64:
+  read varname 
+  out=$(echo "$varname" | base64 -d)
+  echo result copied
+  echo result:
+  echo $out
+
+  wl-copy $out
+

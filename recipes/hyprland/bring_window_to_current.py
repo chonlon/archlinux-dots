@@ -31,8 +31,7 @@ for win in windows:
             continue
         name = get_win_name(win)
         windows_excur_names.append(name)
-        
-        
+
 rofi_choices = '\n'.join(windows_excur_names)
 rofi_cmd = f'echo "{rofi_choices}" | rofi -dmenu -theme {home}{theme}.rasi'
 

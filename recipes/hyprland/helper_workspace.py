@@ -38,6 +38,10 @@ def move_to():
     hyprlibs.exec_or_remind(f"hyprctl dispatch movetoworkspace {helper_workspace_name}")
     toggle()
 
+@app.command()
+def exit_special_workspace():
+  hyprlibs.exec_or_remind(f"hyprctl dispatch togglespecialworkspace exit")
+  hyprlibs.exec_or_remind(f"hyprctl dispatch togglespecialworkspace exit")
 
 # move_to()
 app()

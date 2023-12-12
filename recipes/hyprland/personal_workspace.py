@@ -42,7 +42,15 @@ def toggle_helper(name: str):
     default_app = workspace[f"special:{name}"]["app"]
     hyprlibs.exec_or_remind(f"hyprctl dispatch exec '[workspace special:{name}] {default_app}'")
   # hyprlibs.exec_or_remind(f"hyprctl dispatch exec '[workspace special:{name}] kitty'")
+  # cur_workspace = hyprlibs.get_current_workspace()
   hyprlibs.exec_or_remind(f"hyprctl dispatch togglespecialworkspace {name}")
+  # if "special" in cur_workspace["name"]:
+  #   hyprlibs.exec_or_remind(f"hyprctl dispatch submap reset")
+  # else:
+  #   hyprlibs.exec_or_remind(f"hyprctl dispatch submap special")
+  
+  
+
 
 
 # @app.command()
@@ -56,5 +64,12 @@ def switch():
   print(f"choosen {w}")
   if w and len(w):
     toggle(w)
+
+@app.command()
+def exit_special_workspace():
+  hyprlibs.exec_or_remind(f"hyprctl dispatch togglespecialworkspace exit")
+  hyprlibs.exec_or_remind(f"hyprctl dispatch togglespecialworkspace exit")
+  hyprlibs.exec_or_remind(f"hyprctl dispatch submap reset")
+
 
 app()

@@ -11,7 +11,6 @@ alias db='docker build'
 alias lls='logo-ls'
 alias ls="exa --icons"
 alias vi="nvim"
-alias grep="rg"
 alias du="dust"
 alias ra="ranger"
 alias rv="EDITOR=nvim ranger"

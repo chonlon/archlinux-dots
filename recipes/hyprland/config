@@ -49,7 +49,7 @@
       "app": "kitty -e ipython"
     },
     "special:h3": {
-      "app": "clash-verge"
+      "app": "kitty -e fish -c zellij -- -l compact options --on-force-close quit"
     },
     "special:h4": {
       "app": "kitty -e btm"

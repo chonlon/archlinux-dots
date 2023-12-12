@@ -15,6 +15,7 @@ app = typer.Typer()
 def float():
     run(hyprland.Dispatch.toggle_floating())
     run(hyprland.Dispatch.pin())
+
     cur = hyprlibs.get_current_window()
     if cur["floating"]:
       move('right_down')

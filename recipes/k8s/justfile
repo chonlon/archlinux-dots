@@ -5,6 +5,8 @@ create-test-ns:
 	kubectl create namespace test
 exec-pod *args: create-test-ns
 	python ~/.recipes/k8s/k8s.py exec-pod {{args}}
+attach-debug *args:
+	python ~/.recipes/k8s/k8s.py attach-debug {{args}}
 
 install-cert-mgr:
 	helm repo add jetstack https://charts.jetstack.io
